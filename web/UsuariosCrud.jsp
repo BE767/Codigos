@@ -68,9 +68,6 @@
                     <td colspan="3"><input type="submit" name="accion" id="accion" value="borrar" ></td>
                 </tr> 
 
-
-
-
             </table>
         </form>
         <%

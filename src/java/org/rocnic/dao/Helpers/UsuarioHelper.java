@@ -44,7 +44,6 @@ public class UsuarioHelper extends Helpers<Usuarios> implements Serializable {
         return false;
     }
         
-
     /**
      *
      * @return

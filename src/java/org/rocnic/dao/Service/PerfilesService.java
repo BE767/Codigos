@@ -21,6 +21,12 @@ import org.rocnic.dao.service.Conexion;
 
 public class PerfilesService extends Conexion<Perfiles>
 {
+    
+    
+  
+    
+
+
      public List<Perfiles> getPerfilesList() {
         List<Perfiles> PerfilesList = null;
         Connection connection = null;
@@ -165,32 +171,5 @@ public class PerfilesService extends Conexion<Perfiles>
     }
         
         
-        public boolean validarRegistro(String NombrePerfil, int IdPerfil) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = getConnection();
-
-            String query = "SELECT * FROM perfiles WHERE NombrePerfil = ? AND IdPerfil = ?";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, NombrePerfil);
-            preparedStatement.setInt(2, IdPerfil);
-
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                int count = resultSet.getInt(1);
-                return count > 0;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } 
-        return false;
-    }
-
-     
-     
-     
+   
 }
