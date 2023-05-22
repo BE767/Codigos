@@ -179,5 +179,43 @@ public class UsuariosService extends Conexion<Usuarios> {
         }
         return false;
     }
+  
+  
+ 
+   
+
+  
+
+    public boolean validarUsuarioContraseñaBoletaExistente(String usuario, String contraseña, String boleta) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean existe = false;
+
+        try {
+            connection = getConnection(); // Obtener conexión a la base de datos
+
+            String sql = "SELECT * FROM usuarios WHERE Usuario = ? OR Contraseña = ? OR Boleta = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, usuario);
+            preparedStatement.setString(2, contraseña);
+            preparedStatement.setString(3, boleta);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                existe = (count > 0);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
+        return existe;
+    }
+
+  
+
+
+
+
 
 }
