@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.rocnic.dao.Perfiles;
 import org.rocnic.dao.Usuarios;
 import org.rocnic.dao.service.Conexion;
 
@@ -156,7 +157,7 @@ public class UsuariosService extends Conexion<Usuarios> {
         return null;
     }
 
-  public boolean deleteUsuario(Usuarios usuario) {
+    public boolean deleteUsuario(Usuarios usuario) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM usuarios WHERE IdUsuario = ?";
@@ -179,12 +180,6 @@ public class UsuariosService extends Conexion<Usuarios> {
         }
         return false;
     }
-  
-  
- 
-   
-
-  
 
     public boolean validarUsuarioContraseñaBoletaExistente(String usuario, String contraseña, String boleta) {
         Connection connection = null;
@@ -208,14 +203,101 @@ public class UsuariosService extends Conexion<Usuarios> {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
+        }
         return existe;
     }
 
-  
+    public List<Usuarios> obtenerUsuarios() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Usuarios> usuarios = new ArrayList<>();
 
+        try {
+            connection = getConnection(); // Obtener conexión a la base de datos
 
+            String sql = "SELECT IdUsuario, Boleta, Usuario FROM Usuarios";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next()) {
+                int idUsuario = resultSet.getInt("IdUsuario");
+                String boleta = resultSet.getString("Boleta");
+                String usuario = resultSet.getString("Usuario");
+
+                Usuarios user = new Usuarios();
+                user.setIdUsuario(idUsuario);
+                user.setBoleta(boleta);
+                user.setUsuario(usuario);
+
+                usuarios.add(user);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public List<Perfiles> obtenerPerfiles() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Perfiles> perfiles = new ArrayList<>();
+
+        try {
+            connection = getConnection(); // Obtener conexión a la base de datos
+
+            String sql = "SELECT IdPerfil, NombrePerfil FROM perfiles";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idPerfil = resultSet.getInt("IdPerfil");
+                String nombrePerfil = resultSet.getString("NombrePerfil");
+                
+                Perfiles perfil = new Perfiles();
+                perfil.setIdPerfil(idPerfil);
+                perfil.setNombrePerfil(nombrePerfil);
+                
+                perfiles.add(perfil);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
+
+        return perfiles;
+    }
+    
+    
+    public List<Usuarios> obtenerUsuariosPorPerfil(int idPerfil) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Usuarios> usuarios = new ArrayList<>();
+
+        try {
+            connection = getConnection(); // Obtener conexión a la base de datos
+
+            String sql = "SELECT IdUsuario, Boleta FROM usuarios WHERE IdPerfil = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, idPerfil);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idUsuario = resultSet.getInt("IdUsuario");
+                String boleta = resultSet.getString("Boleta");
+                
+                Usuarios usuario = new Usuarios();
+                usuario.setIdUsuario(idUsuario);
+                usuario.setBoleta(boleta);
+                
+                usuarios.add(usuario);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
+        return usuarios;
+    }
 
 
 }

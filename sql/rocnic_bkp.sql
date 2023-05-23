@@ -42,17 +42,17 @@ foreign key (IdPerfil) references Perfiles (IdPerfil) on delete cascade on updat
 );
 
 create table Laboratorio(
-IdLaboratorio int primary key not null auto_increment, 
-NombreLaboratorio varchar(16) 
+IdLaboratorio int primary key not null auto_increment,
+NombreLaboratorio varchar(16) ,
+NumeroEquipo int
+IdPeriferico int,
+foreign key (IdPeriferico) references Perifericos (IdPeriferico) on delete cascade on update cascade
 );
 
 create table Equipos (
-IdEquipo int primary key not null auto_increment,
-NombreEquipo varchar(20),
-IdLaboratorio int,
-IdPeriferico int,
-foreign key (IdLaboratorio) references Laboratorio (IdLaboratorio) on delete cascade on update cascade,
-foreign key (IdPeriferico) references perifericos (IdPeriferico) on delete cascade on update cascade
+IdEquipos int primary key not null auto_increment,
+,
+IdLaboratorio int
 );
 
 create table TipoError(
@@ -81,6 +81,11 @@ foreign key (IdUsuario) references Usuarios (IdUsuario) on delete cascade on upd
 foreign key (IdTipoError) references TipoError (IdTipoError) on delete cascade on update cascade,
 foreign key (IdEstatusReporte) references EstatusReporte (IdEstatusReporte) on delete cascade on update cascade
 );
+
+
+
+
+
 
 
 
